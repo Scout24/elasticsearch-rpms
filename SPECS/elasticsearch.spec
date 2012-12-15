@@ -1,3 +1,12 @@
+# HACK: disable brp-java-repack-jars
+%define __os_install_post \
+/usr/lib/rpm/redhat/brp-compress \
+%{!?__debug_package:/usr/lib/rpm/redhat/brp-strip %{__strip}} \
+/usr/lib/rpm/redhat/brp-strip-static-archive %{__strip} \
+/usr/lib/rpm/redhat/brp-strip-comment-note %{__strip} %{__objdump} \
+/usr/lib/rpm/brp-python-bytecompile \
+%{nil}
+
 %define debug_package %{nil}
 %define base_install_dir %{_javadir}{%name}
 
