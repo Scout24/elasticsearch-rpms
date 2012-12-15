@@ -1,27 +1,28 @@
 %define debug_package %{nil}
 %define base_install_dir %{_javadir}{%name}
 
-Name:           elasticsearch
-Version:        0.20.1
-Release:        2%{?dist}
-Summary:        A distributed, highly available, RESTful search engine
+Name: elasticsearch
+Version: 0.20.1
+Release: 2%{?dist}
+Summary: A distributed, highly available, RESTful search engine
 
-Group:          System Environment/Daemons
-License:        ASL 2.0
-URL:            http://www.elasticsearch.com
-Source0:        https://github.com/downloads/%{name}/%{name}/%{name}-%{version}.tar.gz
-Source1:        init.d-elasticsearch
-Source2:        logrotate.d-elasticsearch
-Source3:        config-logging.yml
-Source4:        sysconfig-elasticsearch
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+Group: System Environment/Daemons
+License: ASL 2.0
+URL: http://www.elasticsearch.com
+Source0: https://github.com/downloads/%{name}/%{name}/%{name}-%{version}.tar.gz
+Source1: init.d-elasticsearch
+Source2: logrotate.d-elasticsearch
+Source3: config-logging.yml
+Source4: sysconfig-elasticsearch
+BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-Requires:       jpackage-utils
-Requires:       jre
+Requires: jpackage-utils
+Requires: jre
+Requires: %{name}-config
 
 Requires(post): chkconfig initscripts
-Requires(pre):  chkconfig initscripts
-Requires(pre):  shadow-utils
+Requires(pre): chkconfig initscripts
+Requires(pre): shadow-utils
 
 %description
 A distributed, highly available, RESTful search engine
@@ -102,19 +103,33 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root,-)
 %{_sysconfdir}/rc.d/init.d/elasticsearch
-%config(noreplace) %{_sysconfdir}/sysconfig/elasticsearch
-%{_sysconfdir}/logrotate.d/elasticsearch
 %dir %{_javadir}/elasticsearch
 %{_javadir}/elasticsearch/bin/*
 %{_javadir}/elasticsearch/lib/*
 %dir %{_javadir}/elasticsearch/plugins
-%config(noreplace) %{_sysconfdir}/elasticsearch
-%doc LICENSE.txt  NOTICE.txt  README.textile
+%doc LICENSE.txt NOTICE.txt README.textile
 %defattr(-,elasticsearch,elasticsearch,-)
 %dir %{_localstatedir}/lib/elasticsearch
 %{_localstatedir}/run/elasticsearch
-%dir %{_localstatedir}/log/elasticsearch
 
+
+%package -n %{name}-default-config
+
+Requires: yum
+Provides: %{name}-config
+Summary: Default config files for %{name}
+
+%description -n %{name}-default-config
+
+This package contains the default configuration for %{name}. Other providers of %{name}-config could deliver
+server or environment specific configuration files.
+
+%files -n %{name}-default-config
+%defattr(-,root,root,-)
+%config(noreplace) %{_sysconfdir}/sysconfig/elasticsearch
+%{_sysconfdir}/logrotate.d/elasticsearch
+%config(noreplace) %{_sysconfdir}/elasticsearch
+%dir %{_localstatedir}/log/elasticsearch
 
 %changelog
 * Mon Dec 10 2012 tavisto@tavisto.net 0.20.1-1
@@ -194,7 +209,7 @@ rm -rf $RPM_BUILD_ROOT
 * Sat Jan 29 2011 Tavis Aitken tavisto@tavisto.net 0.14.2-3
 - Fixed the user creation comment to not include a colon
 
-* Fri Jan 21 2011  Tavis Aitken <tavisto@tavisto.net> - 0.14.2-2
+* Fri Jan 21 2011 Tavis Aitken <tavisto@tavisto.net> - 0.14.2-2
 - Fixed the logging.yml and logrotate.d configs
 
 * Fri Jan 14 2011 Tavis Aitken <tavisto@tavisto.net> - 0.14.2-1
