@@ -47,6 +47,8 @@ ES_MAX_MEM=${ES_MAX_MEM:-1g}
 ES_INCLUDE=${ES_INCLUDE:-${ES_HOME}/bin/elasticsearch.in.sh}
 
 clusterStateGreen() {
+    i=20
+    while [ $i -gt 0 ] && ! nc -vz localhost 9200 ; do i=$((i-1)); sleep 1; done 
     curl -s "http://localhost:9200/_cluster/health?wait_for_status=green&timeout=600s"| grep green 
     RETVAL=$?
     return $RETVAL
