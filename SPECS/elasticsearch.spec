@@ -3,7 +3,7 @@
 
 Name: elasticsearch
 Version: 0.20.6
-Release: 4%{?dist}
+Release: 5%{?dist}
 Summary: A distributed, highly available, RESTful search engine
 
 Group: System Environment/Daemons
@@ -19,6 +19,7 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires: jpackage-utils
 Requires: jre
 Requires: %{name}-config
+Requires: nc
 
 Requires(post): chkconfig initscripts
 Requires(pre): chkconfig initscripts
