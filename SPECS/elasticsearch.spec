@@ -3,7 +3,7 @@
 
 Name: elasticsearch
 Version: 0.20.6
-Release: 5%{?dist}
+Release: 6%{?dist}
 Summary: A distributed, highly available, RESTful search engine
 
 Group: System Environment/Daemons
@@ -91,7 +91,7 @@ fi
 
 %post
 /sbin/chkconfig --add elasticsearch
-
+/sbin/chkconfig elasticsearch on
 # always restart elasticsearch if it was running
 if service elasticsearch status > /dev/null 2>&1; then
         echo "Restarting elasticsearch service because it was running."
@@ -143,6 +143,10 @@ server or environment specific configuration files.
 %dir %{_localstatedir}/log/elasticsearch
 
 %changelog
+* Thu Sep 12 2013 jgaedicke 0.20.6-6
+- start elasticsearch service on reboot
+- sleep 2 seconds when restarting service, to free used system memory
+
 * Fri Jun 14 2013 jgaedicke 0.20.6-3
 - restart elasticsearch if service was running
 

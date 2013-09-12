@@ -92,6 +92,7 @@ case "$1" in
         ;;
     restart|force-reload)
         stop
+	sleep 2
         start
         ;;
     *)
