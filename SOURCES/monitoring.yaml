@@ -1,0 +1,18 @@
+services:
+   is24-elasticsearch.status:
+    _description: Checks if the elasticsearch cluster is reachable via http 
+    check_command: check_http!/!9200!"200"
+    contact_groups: sk3
+    service_description: Logstash serverstatus
+
+   is24-elasticsearch-not-red.status:
+    _description: Checks the cluster state is not red
+    check_command: check_http_string_absence!/_cluster/health!9200!"red"
+    contact_groups: sk3
+    service_description: Checks the cluster state is not red
+
+   is24-elasticsearch-not-yellow.status:
+    _description: Checks the cluster state is not yellow
+    check_command: check_http_string_absence!/_cluster/health!9200!"yellow"
+    contact_groups: sk3
+    service_description: Checks the cluster state is not yellow

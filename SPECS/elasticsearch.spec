@@ -3,7 +3,7 @@
 
 Name: elasticsearch
 Version: 0.90.5
-Release: 6%{?dist}
+Release: 7%{?dist}
 Summary: A distributed, highly available, RESTful search engine
 
 Group: System Environment/Daemons
@@ -14,6 +14,7 @@ Source1: init.d-elasticsearch
 Source2: logrotate.d-elasticsearch
 Source3: config-logging.yml
 Source4: sysconfig-elasticsearch
+Source5: monitoring.yaml
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Requires: jpackage-utils
@@ -57,6 +58,10 @@ rm -rf $RPM_BUILD_ROOT
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/elasticsearch
 %{__install} -m 644 config/elasticsearch.yml %{buildroot}%{_sysconfdir}/%{name}
 %{__install} -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/%{name}/logging.yml
+
+# monitoring
+%{__mkdir} -p %{buildroot}%{_sysconfdir}/monitoring
+%{__install} -m 644 %{SOURCE5} %{buildroot}%{_sysconfdir}/monitoring/20_elasticsearch.yaml
 
 # data
 %{__mkdir} -p %{buildroot}%{_localstatedir}/lib/%{name}
@@ -114,6 +119,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root,-)
 %{_sysconfdir}/rc.d/init.d/elasticsearch
+%{_sysconfdir}/monitoring/20_elasticsearch.yaml
 %dir %{_javadir}/elasticsearch
 %{_javadir}/elasticsearch/bin/*
 %{_javadir}/elasticsearch/lib/*
@@ -143,6 +149,10 @@ server or environment specific configuration files.
 %dir %{_localstatedir}/log/elasticsearch
 
 %changelog
+* Wed Oct 02 2013 jgaedicke 0.90.5-7
+- update to elasticsearch 0.90.5
+- added default monitoring for is24
+
 * Thu Sep 12 2013 jgaedicke 0.20.6-6
 - start elasticsearch service on reboot
 - sleep 2 seconds when restarting service, to free used system memory
