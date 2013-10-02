@@ -119,7 +119,6 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root,-)
 %{_sysconfdir}/rc.d/init.d/elasticsearch
-%{_sysconfdir}/monitoring/20_elasticsearch.yaml
 %dir %{_javadir}/elasticsearch
 %{_javadir}/elasticsearch/bin/*
 %{_javadir}/elasticsearch/lib/*
@@ -144,6 +143,7 @@ server or environment specific configuration files.
 %files -n %{name}-default-config
 %defattr(-,root,root,-)
 %config(noreplace) %{_sysconfdir}/sysconfig/elasticsearch
+%config(noreplace) %{_sysconfdir}/monitoring/20_elasticsearch.yaml
 %{_sysconfdir}/logrotate.d/elasticsearch
 %config(noreplace) %{_sysconfdir}/elasticsearch
 %dir %{_localstatedir}/log/elasticsearch
