@@ -45,6 +45,9 @@ DAEMON_OPTS="-p ${PID_FILE} \
 ES_MIN_MEM=${ES_MIN_MEM:-256m}
 ES_MAX_MEM=${ES_MAX_MEM:-1g}
 ES_INCLUDE=${ES_INCLUDE:-${ES_HOME}/bin/elasticsearch.in.sh}
+# no default for this variables but also passed over
+ES_HEAP_SIZE=${ES_HEAP_SIZE}
+ES_HEAP_NEWSIZE=${ES_HEAP_NEWSIZE}
 
 clusterStateGreen() {
     i=20
@@ -63,6 +66,8 @@ start() {
         ES_INCLUDE=$ES_INCLUDE \
         ES_MIN_MEM=$ES_MIN_MEM \
         ES_MAX_MEM=$ES_MAX_MEM \
+        ES_HEAP_SIZE=$ES_HEAP_SIZE \
+        ES_HEAP_NEWSIZE=$ES_HEAP_NEWSIZE \
         $DAEMON $DAEMON_OPTS
     RETVAL=$?
     echo
