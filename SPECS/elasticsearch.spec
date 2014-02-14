@@ -3,7 +3,7 @@
 
 Name: elasticsearch
 Version: 0.90.9
-Release: 0
+Release: 1
 Summary: A distributed, highly available, RESTful search engine
 
 Group: System Environment/Daemons
